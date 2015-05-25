@@ -1,0 +1,8 @@
+1 string.charAt(i) : given index i, return the character of the corresponding i;
+2 Arrays.sort(array): given an array, sort this array;
+3 array.length : get the length of an array
+  string.length : get the length of a string
+4 string.toCharArray(): convert the variable string to char type. variable char will be consist of the characters.
+5 String string = new String(array) : convert an char array to a string.
+6 Integer.parseInt("string"): given a string, return a int
+7 str1.contains(str2); : if str2 is substring of str1,return true; if str2 isn't, return false
