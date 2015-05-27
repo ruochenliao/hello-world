@@ -1,0 +1,4 @@
+you can see the website by the url:
+http://cs-server.usc.edu:19693/hw6.php
+
+Server-side Scripting using PHP, XML and eBay API 

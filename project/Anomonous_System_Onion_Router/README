@@ -1,0 +1,16 @@
+There are two steps to run this program
+1 config the tunnel
+2 command to run this program
+make
+sudo ./projc config_file
+make clean
+
+3 attention: When input ctrl + c in the terminal, the program can not kill itself
+  So you need input "ps -A" and then "sudo killall projc" in the terminal
+  
+4 project_description:
+Router System - Tor Project, Onion Router (Fedora)                                     Sep. 2014 - Dec. 2014
+Proxy Router randomly chose routers to build virtual circuit, muti-encrypted ICMP/TCP/UDP packets; Onion Router decrypted the packets layer by layer, distinguished packets and passed packets to the next router.
+•	Developed muti-process network infrastructure using socket programming, C++
+•	Built virtual circuit, encrypted/ decrypted packets with (AES)Advanced Encryption Standard encryption
+•	Used Wireshark to analyze and debug sudo packet header, IP address, port number, checksum and sequence number 

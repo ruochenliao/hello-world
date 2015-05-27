@@ -1,0 +1,87 @@
+Documentation for Kernel Assignment 2
+=====================================
+
++-------------+
+| BUILD & RUN |
++-------------+
+
+Comments: Please use the standard kernel 2 commands:
+          make clean
+          make
+          ./weenix -n
+          
+          "vfstest" kshell command
+          	    This will invoke vfstest_main() 
+          	    (with argc=1 and argv=NULL) in "kernel/test/vfstest/vfstest.c
+
++------+
+| SKIP |
++------+
+
+No.
+
++---------+
+| GRADING |
++---------+
+
+(A.1) In fs/vnode.c:
+    (a) In special_file_read(): 6 pts
+    (b) In special_file_write(): 6 pts
+
+(A.2) In fs/namev.c:
+    (a) In lookup(): 6 pts
+    (b) In dir_namev(): 10 pts
+    (c) In open_namev(): 2 pts
+
+(3) In fs/vfs_syscall.c:
+    (a) In do_write(): 6 pts
+    (b) In do_mknod(): 2 pts
+    (c) In do_mkdir(): 2 pts
+    (d) In do_rmdir(): 2 pts
+    (e) In do_unlink():2 pts
+    (f) In do_stat():  2 pts
+
+(B) vfstest: 40 pts
+    Comments: Works.
+
+(C) Self-checks :
+    Comments: (A) through (B) are enough to exercise all code path.
+
+Missing required section(s) in README file (procs-README.txt): No
+Submitted binary file : No
+Submitted extra (unmodified) file : No
+Wrong file location in submission : No
+Use dbg_print(...) instead of dbg(DBG_PRINT, ...) : No
+Not properly indentify which dbg() printout is for which item in the grading guidelines : No
+Cannot compile : Compiles
+Compiler warnings : None
+"make clean" : Works
+Useless KASSERT : Where reqired and needed.
+Insufficient/Confusing dbg : No
+Kernel panic : No
+Cannot halt kernel cleanly : Halts Cleanly
+
++------+
+| BUGS |
++------+
+
+Comments: No bugs.
+
++---------------------------+
+| CONTRIBUTION FROM MEMBERS |
++---------------------------+
+
+Equal.
+
++-------+
+| OTHER |
++-------+
+
+Special DBG setting in Config.mk for certain tests: No
+Comments on deviation from spec (you will still lose points, but it's better to let the grader know): No
+General comments on design decisions: 
+We lost marks for DBG statement format last time, and for self checks. We have corrected those this time, for kernel1 as well
+
+For self checks, our format is
+"(GRADING2C) (file name) (function name) description"
+

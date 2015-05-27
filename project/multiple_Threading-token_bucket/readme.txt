@@ -1,0 +1,1 @@
+in terminal use "./warmup" to excute

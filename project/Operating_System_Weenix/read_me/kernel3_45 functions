@@ -1,0 +1,71 @@
+blue:John
+kernel/proc/fork.c:        NOT_YET_IMPLEMENTED("VM: do_fork");
+kernel/vm/pagefault.c:        NOT_YET_IMPLEMENTED("VM: handle_pagefault");
+
+kernel/api/access.c:        NOT_YET_IMPLEMENTED("VM: ***none***");
+kernel/api/access.c:        NOT_YET_IMPLEMENTED("VM: ***none***");
+kernel/fs/vnode.c:        NOT_YET_IMPLEMENTED("VM: special_file_mmap");
+kernel/fs/vnode.c:        NOT_YET_IMPLEMENTED("VM: special_file_fillpage");
+kernel/fs/vnode.c:        NOT_YET_IMPLEMENTED("VM: special_file_dirtypage");
+kernel/fs/vnode.c:        NOT_YET_IMPLEMENTED("VM: special_file_cleanpage");
+kernel/mm/pframe.c:        NOT_YET_IMPLEMENTED("VM: pframe_get");
+kernel/mm/pframe.c:        NOT_YET_IMPLEMENTED("VM: pframe_pin");
+kernel/mm/pframe.c:        NOT_YET_IMPLEMENTED("VM: pframe_unpin");
+
+
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_init");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_create");
+
+red : Alekhya
+ken ding cuo le de
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_is_range_empty");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_remove");
+
+
+kernel/api/syscall.c:        NOT_YET_IMPLEMENTED("VM: sys_read");
+kernel/api/syscall.c:        NOT_YET_IMPLEMENTED("VM: sys_write");
+kernel/proc/kthread.c:        NOT_YET_IMPLEMENTED("VM: kthread_clone");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_create");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_destroy");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_lookup");
+
+green:Divya
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_ref");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_put");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_lookuppage");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_fillpage");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_dirtypage");
+kernel/vm/shadow.c:        NOT_YET_IMPLEMENTED("VM: shadow_cleanpage");
+
+purple:Andy
+kernel/vm/brk.c:        NOT_YET_IMPLEMENTED("VM: do_brk");
+kernel/vm/mmap.c:        NOT_YET_IMPLEMENTED("VM: do_mmap");
+kernel/vm/mmap.c:        NOT_YET_IMPLEMENTED("VM: do_munmap");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_clone");
+
+
+ken ding mei cuo de 
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_insert");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_read");
+
+
+ke neng  you cuo de 
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_find_range");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_map");
+kernel/vm/vmmap.c:        NOT_YET_IMPLEMENTED("VM: vmmap_write");
+
+
+yellow:Gavin
+kernel/api/syscall.c:        NOT_YET_IMPLEMENTED("VM: sys_getdents");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_init");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_create");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_ref");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_put");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_lookuppage");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_fillpage");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_dirtypage");
+kernel/vm/anon.c:        NOT_YET_IMPLEMENTED("VM: anon_cleanpage");
+
+
+
+

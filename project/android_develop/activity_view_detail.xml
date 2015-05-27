@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/view_detail"
+    android:layout_centerHorizontal="true"
+    >
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:id="@+id/image0"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_below="@+id/image0"
+        android:text="123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/price"
+        android:layout_below="@+id/title"
+        android:text="dfkgdlfg;dfkgldfk;gdfkjdslfjsldjflsjsdfsdjdlfjsldfjklhello_world"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/item_location"
+        android:layout_below="@+id/price"
+        android:text="dfkgdlfg;dfkgldfk;gdfkjdslfjsldjflsjdlfjsldfjklhello_world"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/buy_now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy Now"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/item_location"/>
+    <ImageView
+        android:id="@+id/top_rated"
+        android:layout_below="@+id/item_location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        />
+    <ImageView
+        android:id="@+id/facebook_icon"
+        android:layout_below="@+id/item_location"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@+id/item_location"
+        />
+
+    <Button
+        android:id="@+id/basic_info"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="BASIC INFO"
+        android:layout_below="@+id/buy_now"
+        android:onClick="clear_f"/>
+    <Button
+        android:id="@+id/seller"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="SELLER"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/buy_now"
+        android:onClick="clear_f"/>
+    <Button
+        android:id="@+id/shipping"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="SHIPPING"
+        android:layout_alignRight="@+id/item_location"
+        android:layout_below="@+id/buy_now"
+        android:onClick="clear_f"/>
+    <!-- basic info -->
+
+    <RelativeLayout
+        android:id="@+id/basic_info_layout"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/seller"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+
+        >
+
+        <TextView
+            android:id="@+id/category_name"
+            android:text="Category Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/condition"
+            android:layout_below="@+id/category_name"
+            android:text="Condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/buying_format"
+            android:layout_below="@+id/condition"
+            android:text="Buying Format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:id="@+id/category_name_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/category_name"
+            android:layout_toRightOf="@id/category_name"
+            android:layout_marginLeft="40dp"/>
+        <TextView
+            android:id="@+id/condition_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/condition"
+            android:layout_alignLeft="@id/category_name_s"/>
+        <TextView
+            android:id="@+id/buying_format_s"
+            android:text="hello123123"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/buying_format"
+            android:layout_alignLeft="@id/category_name_s"/>
+    </RelativeLayout>
+
+    <!-- seller -->
+    <RelativeLayout
+        android:id="@+id/seller_layout"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/seller"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/user_name"
+            android:text="User Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/feedback_score"
+            android:layout_below="@+id/user_name"
+            android:text="Facebook Score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/positive_feedback"
+            android:layout_below="@+id/feedback_score"
+            android:text="Positive Feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/feedback_rating"
+            android:layout_below="@+id/positive_feedback"
+            android:text="Feedback Rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/top_rated_detail"
+            android:layout_below="@+id/feedback_rating"
+            android:text="Top Rated"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/store"
+            android:layout_below="@+id/top_rated_detail"
+            android:text="Store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/user_name_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/user_name"
+            android:layout_toRightOf="@id/user_name"
+            android:layout_marginLeft="90dp"/>
+        <TextView
+            android:id="@+id/feedback_score_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/feedback_score"
+            android:layout_alignLeft="@id/user_name_s"/>
+        <TextView
+            android:id="@+id/positive_feedback_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/positive_feedback"
+            android:layout_alignLeft="@id/user_name_s"/>
+        <TextView
+            android:id="@+id/feedback_rating_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/feedback_rating"
+            android:layout_alignLeft="@id/user_name_s"/>
+        <ImageView
+            android:id="@+id/top_rated_s"
+            android:text="hello"
+            android:layout_width="30px"
+            android:layout_height="30px"
+            android:layout_alignTop="@+id/top_rated_detail"
+            android:layout_alignLeft="@id/user_name_s"/>
+        <TextView
+            android:id="@+id/store_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/store"
+            android:layout_alignLeft="@id/user_name_s"/>
+    </RelativeLayout>
+
+    <!-- shipping -->
+    <RelativeLayout
+        android:id="@+id/shipping_layout"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/seller"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/shipping_type"
+            android:text="Shipping Type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/handling_time"
+            android:layout_below="@+id/shipping_type"
+            android:text="Handling Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/shipping_location"
+            android:layout_below="@+id/handling_time"
+            android:text="Shipping Locations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/expedited_shipping"
+            android:layout_below="@+id/shipping_location"
+            android:text="Expedited Shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/one_day_shipping"
+            android:layout_below="@+id/expedited_shipping"
+            android:text="One Day Shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/return_accepted"
+            android:layout_below="@+id/one_day_shipping"
+            android:text="Returns Accepted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/shipping_type_s"
+            android:text="hellsdfsldkfjsdkfjdslkfjsldkjflsdjfklsdjflskdjflksjdfko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/shipping_type"
+            android:layout_alignLeft="@+id/handling_time_s"
+           />
+        <TextView
+            android:id="@+id/handling_time_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/handling_time"
+            android:layout_toRightOf="@id/handling_time"
+            android:layout_marginLeft="100dp"
+            />
+        <TextView
+            android:id="@+id/shipping_location_s"
+            android:text="hello"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/shipping_location"
+            android:layout_alignLeft="@id/handling_time_s"/>
+        <ImageView
+            android:id="@+id/expedited_shipping_s"
+            android:text="hello"
+            android:layout_width="30px"
+            android:layout_height="30px"
+            android:layout_alignTop="@+id/expedited_shipping"
+            android:layout_alignLeft="@id/handling_time_s"/>
+        <ImageView
+            android:id="@+id/one_day_shipping_s"
+            android:text="hello"
+            android:layout_width="30px"
+            android:layout_height="30px"
+            android:layout_alignTop="@+id/one_day_shipping"
+            android:layout_alignLeft="@id/handling_time_s"/>
+        <ImageView
+            android:id="@+id/return_accepted_s"
+            android:text="hello"
+            android:layout_width="30px"
+            android:layout_height="30px"
+            android:layout_alignTop="@+id/return_accepted"
+            android:layout_alignLeft="@id/handling_time_s"/>
+    </RelativeLayout>
+
+</RelativeLayout>
+</ScrollView>

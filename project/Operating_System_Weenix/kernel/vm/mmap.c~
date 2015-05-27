@@ -1,0 +1,159 @@
+#include "globals.h"
+#include "errno.h"
+#include "types.h"
+
+#include "mm/mm.h"
+#include "mm/tlb.h"
+#include "mm/mman.h"
+#include "mm/page.h"
+
+#include "proc/proc.h"
+
+#include "util/string.h"
+#include "util/debug.h"
+
+#include "fs/vnode.h"
+#include "fs/vfs.h"
+#include "fs/file.h"
+
+#include "vm/vmmap.h"
+#include "vm/mmap.h"
+
+/*
+ * This function implements the mmap(2) syscall, but only
+ * supports the MAP_SHARED, MAP_PRIVATE, MAP_FIXED, and
+ * MAP_ANON flags.
+ *
+ * Add a mapping to the current process's address space.
+ * You need to do some error checking; see the ERRORS section
+ * of the manpage for the problems you should anticipate.
+ * After error checking most of the work of this function is
+ * done by vmmap_map(), but remember to clear the TLB.
+ */
+
+int
+do_mmap(void *addr, size_t len, int prot, int flags,
+        int fd, off_t off, void **ret)
+{
+        /*NOT_YET_IMPLEMENTED("VM: do_mmap");
+        return -1;*/
+	file_t *f;
+	uint32_t lopage;
+	vmarea_t *nvma;
+	vnode_t *vn;
+	int errno;
+	
+	if(len<=0 || len > (uintptr_t)(USER_MEM_HIGH-USER_MEM_LOW))
+	      return -EINVAL;
+	
+	if(!(flags & MAP_SHARED || flags & MAP_PRIVATE || flags & MAP_FIXED || flags & MAP_ANON))
+	  return -EINVAL;
+
+	if(addr==NULL)
+	  {
+	    if(flags & MAP_FIXED)
+	      return -EINVAL;
+	    else
+		lopage=0;
+	  }	
+
+	if(addr!=NULL)
+	  {
+	      if((uintptr_t)addr < (uintptr_t)USER_MEM_LOW || (uintptr_t)addr > (uintptr_t)USER_MEM_HIGH)
+		return -EINVAL;
+	  }
+	
+	if(flags & MAP_FIXED)
+	  {
+	    lopage=ADDR_TO_PN(addr);
+	  }
+	else
+	  lopage=0;
+
+	/*vmmap_find range to check if the memory in that range is available and free, only if flag is MAP_FIXED*/
+	if((flags & MAP_SHARED) && (flags & MAP_PRIVATE))
+	  return -EINVAL;
+	if(!(flags & (MAP_SHARED | MAP_PRIVATE)))
+	  return -EINVAL;
+
+	/*Check for -EOVERFLOW*/
+
+	if(!(flags & MAP_ANON))
+	  {
+	    if(fd < 0 || fd > NFILES || !(f=fget(fd)))
+			return -EBADF;
+		if(((flags & MAP_SHARED) && (prot & PROT_WRITE) && ((f->f_mode & (FMODE_READ | FMODE_WRITE)) != (FMODE_READ | FMODE_WRITE)))
+				||((flags & MAP_PRIVATE) && !(f->f_mode & FMODE_READ))){
+			fput(f);
+			return -EACCES;
+		}
+		
+		if(!PAGE_ALIGNED(off) || !PAGE_ALIGNED(addr))
+	      return -EINVAL;
+		if((prot & PROT_WRITE) && (f->f_mode & FMODE_APPEND)){
+			fput(f);
+			return -EACCES;
+		}
+		vn = f->f_vnode;
+	}
+	else
+	  {
+		vn = NULL;
+	  }
+      
+	len=(len-1+PAGE_SIZE)/PAGE_SIZE;
+	/*Check for ENODEVICE*/
+	errno = vmmap_map(curproc->p_vmmap,vn,lopage,len,prot,flags,off,VMMAP_DIR_HILO,&nvma);
+	if(errno<0)
+	  {
+	    if(!(flags & MAP_ANON))
+			fput(f);
+	    return errno;
+
+	  }
+	  
+	*ret=PN_TO_ADDR(nvma->vma_start);
+	tlb_flush_all();
+
+	KASSERT(NULL!=curproc->p_pagedir);
+
+	if(!(flags & MAP_ANON))
+			fput(f);
+	return errno;
+
+}	
+
+/*
+ * This function implements the munmap(2) syscall.
+ *
+ * As with do_mmap() it should perform the required error checking,
+ * before calling upon vmmap_remove() to do most of the work.
+ * Remember to clear the TLB.
+ */
+int
+do_munmap(void *addr, size_t len)
+{
+	uint32_t lopage;
+	uint32_t npage;
+	int errno;
+	if(!PAGE_ALIGNED(addr))
+		return -EINVAL;
+	if(len <= 0 || len >(uintptr_t) (USER_MEM_HIGH - USER_MEM_LOW))
+		return -EINVAL;
+	if((uintptr_t) addr<(uintptr_t) USER_MEM_LOW ||(uintptr_t) addr+len>(uintptr_t) USER_MEM_HIGH)
+	  return -EINVAL;
+
+	npage = (len - 1 + PAGE_SIZE)/PAGE_SIZE;
+	errno = vmmap_remove(curproc->p_vmmap,ADDR_TO_PN(addr),npage);
+	if(errno<0)
+	  return errno;
+	
+        tlb_flush_all();/*((uintptr_t)addr);*/
+
+	KASSERT(NULL != curproc->p_pagedir);
+	dbg(DBG_PRINT,"(GRADING3A 2.b) (postcondition) KASSERT(NULL != curproc->p_pagedir);\n");
+	return errno;
+/*        NOT_YET_IMPLEMENTED("VM: do_munmap");
+        return -1;
+*/
+}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background_login">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/ebay_logo"
+        android:layout_width ="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#2000FF"
+        android:text="eBay Search"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        />
+        <!-- keyword  -->
+       <RelativeLayout android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/keyword"
+           android:gravity="center"
+           android:layout_below="@+id/ebay_logo"
+           android:layout_marginTop="60dp">
+            <TextView
+                android:id="@+id/keyword_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="20sp"
+                android:text="Keyword"
+                />
+           <EditText
+               android:id="@+id/keyword_blank"
+               android:layout_width="200dp"
+               android:layout_height="wrap_content"
+               android:layout_toRightOf="@+id/keyword_text"
+               android:layout_marginLeft="40dp"
+               />
+       </RelativeLayout>
+
+        <!-- price from -->
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_from"
+            android:gravity="center"
+            android:layout_below="@+id/keyword"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/price_from_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="20sp"
+                android:text="Price From"
+                />
+            <EditText
+                android:id="@+id/price_from_blank"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/price_from_text"
+                android:layout_marginLeft="20dp"
+                />
+        </RelativeLayout>
+
+        <!-- price to -->
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/price_to"
+            android:gravity="center"
+            android:layout_below="@+id/price_from"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/price_to_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="20sp"
+                android:text="Price To"
+                />
+            <EditText
+                android:id="@+id/price_to_blank"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/price_to_text"
+                android:layout_marginLeft="45dp"
+                />
+        </RelativeLayout>
+
+        <!-- sort by -->
+        <RelativeLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_by"
+            android:gravity="center"
+            android:layout_below="@+id/price_to"
+            android:layout_marginTop="20dp">
+            <TextView
+                android:id="@+id/sort_by_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Sort By"
+                />
+            <Spinner
+                android:id="@+id/sort_by_blank"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/sort_by_text"
+                android:layout_marginLeft="40dp"
+                android:entries="@array/cities"
+                android:prompt="@string/spin_prompt"
+                />
+        </RelativeLayout>
+        <!-- clear -->
+       <Button
+           android:id="@+id/clear_button"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Clear"
+           android:layout_centerHorizontal="true"
+           android:layout_below="@+id/sort_by"
+           android:layout_marginTop="20dp"
+           android:onClick="clear_f"/>
+        <!-- search -->
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_below="@+id/sort_by"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@id/clear_button"
+            android:onClick="validate_f"/>
+        <TextView
+            android:id="@+id/show_validation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/clear_button"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffff0000"
+            android:layout_marginTop="20dp"/>
+</RelativeLayout>
+</ScrollView>

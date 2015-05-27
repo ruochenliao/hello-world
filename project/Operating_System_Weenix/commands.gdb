@@ -1,0 +1,10 @@
+source /home/john/weenix/kernel/main/gdt.gdb
+source /home/john/weenix/kernel/mm/pagetable.gdb
+source /home/john/weenix/kernel/proc/kthread.gdb
+source /home/john/weenix/kernel/vm/vmmap.gdb
+source /home/john/weenix/kernel/mm/memcheck.py
+source /home/john/weenix/kernel/mm/page.py
+source /home/john/weenix/kernel/mm/slab.py
+source /home/john/weenix/kernel/proc/proc.py
+source /home/john/weenix/kernel/util/debug.py
+source /home/john/weenix/kernel/util/list.py

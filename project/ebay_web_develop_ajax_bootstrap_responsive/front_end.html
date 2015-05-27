@@ -1,0 +1,527 @@
+<html>
+<head>
+<meta name="viewport" content="height=device-height">  
+<!-- jQuery -->    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>    
+<!-- bootstrap liberary  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- validate liberary -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
+
+    
+<style>
+    .img-responsive{
+        display: block;
+        height: auto;
+        max-width: 100%;
+        vertical-align: middle;
+        border: 0;
+        page-break-inside: avoid;
+        max-width: 100% !important        
+    }  
+    
+    #field { margin-left: .5em; float: left; }
+    #field, label { float: left; font-family: Arial, Helvetica, sans-serif; font-size: small; }
+    br { clear: both; }
+    input { border: 1px solid black; margin-bottom: .5em;  }
+    input.error { border: 1px solid red; }
+    label.valid {
+        <!-- background: url('images/checked.gif') no-repeat; -->
+        display: block;
+        width: 16px;
+        height: 16px;
+    }
+</style> 
+    
+<script>
+previous_page =1;
+current_page=1; 
+page_show_g =1;
+function clear_f(){
+    document.getElementById("myform").reset();
+    document.getElementById("no_result").innerHTML="";
+    document.getElementById("show_me").innerHTML="";
+}    
+function display_f(output){
+    //console.log(output);
+    var json_return = JSON.parse(output); 
+    //console.log(output);
+    if(json_return.ack=="fail"){
+        $("#no_result").html('<p style="font-size:30px">NO results found</p>');
+        $("#show_me").html("");
+        throw new Error("no result found: stop execution");
+    }
+    else{
+        $("#no_result").html("");
+    }
+    var i=0;
+    var html_text="";
+    var resultCount = Number(json_return.resultCount);  //the total number
+    var pageNumber = Number(json_return.pageNumber);   // the number of page
+    var itemCount =Number(json_return.itemCount);       //5 or 10
+    var item_from=pageNumber*itemCount-itemCount+1;
+    var item_to=(pageNumber+1)*itemCount-itemCount;
+    var item_length=Object.keys(json_return).length -4; // number of items in this page
+    //console.log(item_length);
+    if(item_length<itemCount){
+        if( pageNumber==1 ){
+            item_to=item_length;
+        }
+        else{
+            item_to = (pageNumber-1)*itemCount+item_length;
+        }
+    }
+    html_text +='<h2>'+item_from+'-'+item_to+' items out of '+resultCount+'</h2>'
+    
+    for(i=0;i<item_length;i++){
+        var galleryURL= json_return["item"+i].basicInfo.galleryURL;
+        var title= json_return["item"+i].basicInfo.title;
+        var viewItemURL= json_return["item"+i].basicInfo.viewItemURL;
+        var price= json_return["item"+i].basicInfo.convertedCurrentPrice;
+        var shippingServiceCost =json_return["item"+i].basicInfo.shippingServiceCost;
+        //var shippingtype=json_return["item"+i].shippingInfo.shippingType;
+        var location=json_return["item"+i].basicInfo.location;
+        var top_rate=json_return["item"+i].basicInfo.topRatedListing;
+        var categoryName = json_return["item"+i].basicInfo.categoryName;
+        var condition=json_return["item"+i].basicInfo.conditionDisplayName;
+        var listingType=json_return["item"+i].basicInfo.listingType;
+        var username=json_return["item"+i].sellerInfo.sellerUserName;
+        var feedback_score=json_return["item"+i].sellerInfo.feedbackScore;
+        var positive_feedback=json_return["item"+i].sellerInfo.positiveFeedbackPercent;
+        var feedback_rating=json_return["item"+i].sellerInfo.feedbackRatingStar;
+        var top_rated=json_return["item"+i].sellerInfo.topRatedSeller;
+        var store=json_return["item"+i].sellerInfo.sellerStoreName;
+        var storeURL=json_return["item"+i].sellerInfo.sellerStoreURL;
+        var shipping_type=json_return["item"+i].shippingInfo.shippingType;
+        var handling_time=json_return["item"+i].shippingInfo.handlingTime;
+        var shipping_location=json_return["item"+i].shippingInfo.shipToLocations;
+        var expedited_shipping=json_return["item"+i].shippingInfo.expeditedShipping;
+        var one_day_shipping=json_return["item"+i].shippingInfo.oneDayShippingAvailable;
+        var return_accept =json_return["item"+i].shippingInfo.returnsAccepted;
+        var super_size= json_return["item"+i].basicInfo.pictureURLSuperSize;
+        html_text +='<div class="media" id="media_proj"><a data-toggle="modal" href="#mymodal'+i+'" class="media-left"><img width="150px" height="150px" id="picture'+i+'" class="media-object" src='+galleryURL+'></a>';
+
+        html_text+='<div id="mymodal'+i+'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'+title+'</h4></div><div class="modal-body">';
+        //console.log(super_size);
+        if( super_size ==""){
+            html_text+= '<img style="margin-left:auto;margin-right:auto;display:block" src='+galleryURL+'></div></div></div></div>';
+        }
+        else{
+
+            html_text+= '<img class="img-responsive" style="margin-left:auto;margin-right:auto;display:block" src='+super_size+'></div><div class="modal-footer"></div></div></div></div>';
+        }
+
+        html_text+='<div class="media-body"><h4 class="media-heading"><a id="title'+i+'" href ='+viewItemURL+'>'+title+'</a></h4><p style="font-size:20px"><span id="fb_description'+i+'"><b>Price:$'+price+'</b>';
+        if(shippingServiceCost==""||shippingServiceCost=="0.0"){
+            html_text+='(FREE Shipping)&nbsp&nbsp <i>Location:'+location+'</i></span>';
+        }
+        else{
+            html_text+= '('+shippingServiceCost+ 'shipping)&nbsp&nbsp <i>Location:'+location+'</i></span>';
+        }
+        if(top_rate==="true"){
+            html_text+='<img style ="height:20px;width:20px" src="http://cs-server.usc.edu:45678/hw/hw6/itemTopRated.jpg">';  
+        }
+//data-target="#show_hide'+i+'"
+        html_text+='<a data-toggle="collapse" href="#show_hide'+i+'"> View detail </a>';
+        //facebook post FB.Event.subscrib
+        html_text+='<img onclick="share('+i+')" src="http://cs-server.usc.edu:45678/hw/hw8/fb.png" style="height:20px; width:20px">';
+
+        html_text+='<div class="collapse" id="show_hide'+i+'">';     
+        //html_text+='hello</div>'
+        
+        html_text+='<ul class="nav nav-tabs"><li class="active"><a href="#basic_info'+i+'" data-toggle="tab">Basic Info</a></li><li><a href="#seller_info'+i+'" data-toggle="tab">Seller Info</a></li><li><a href="#shipping_info'+i+'" data-toggle="tab">Shipping Info</a></li></ul><div class="tab-content"><div class="tab-pane fade in active" id="basic_info'+i+'">';
+        //basic info:
+        html_text+='<div class="row"><div class="col-md-4">Category name</div><div class="col-md-4">'+categoryName+'</div></div><div class="row"><div class="col-md-4">Condition</div><div class="col-md-4">'+condition+'</div></div><div class="row"><div class="col-md-4">Buying format</div><div class="col-md-4">'+listingType+'</div></div></div>';    
+        //seller info:
+        html_text+='<div class="tab-pane fade" id="seller_info'+i+'"><div class="row"><div class="col-md-4">User name</div><div class="col-md-4">'+username+'</div></div><div class="row"><div class="col-md-4">Feedback score</div><div class="col-md-4">'+feedback_score+'</div></div><div class="row"><div class="col-md-4">Positive feedback</div><div class="col-md-4">'+positive_feedback+'%</div></div><div class="row"><div class="col-md-4">Feedback rating</div><div class="col-md-4">'+feedback_rating+'</div></div><div class="row"><div class="col-md-4">Top rated</div><div class="col-md-4" id="top_rated'+i+'">';
+        if(top_rated==="true"){
+            html_text+='<span style="color:green" class="glyphicon glyphicon-ok"></span>';
+        }
+        else{
+            html_text+='<span style="color:red" class="glyphicon glyphicon-remove"></span>';
+        }
+        html_text+= '</div></div><div class="row"><div class="col-md-4">Store</div><div class="col-md-4" id="store'+i+'">';
+        if(store!=""){
+            html_text+='<a target="_blank" href='+storeURL+'>'+store+'</a></div></div></div>';
+        }
+        else{
+            html_text+='<span>N/A</span></div></div></div>';
+        }
+        //shipping info:
+        html_text+='<div class="tab-pane fade" id="shipping_info'+i+'">';
+        html_text+='<div class="row"><div class="col-md-4">Shipping type</div><div class="col-md-4">'+shipping_type+'</div></div><div class="row"><div class="col-md-4">Handling time</div><div class="col-md-4">'+handling_time+' day(s)</div></div><div class="row"><div class="col-md-4">Shipping locations</div><div class="col-md-4">'+shipping_location+'</div></div><div class="row"><div class="col-md-4">Expedited shipping</div><div class="col-md-4" id="expedited_shipping'+i+'">';
+        if( expedited_shipping==="true" ){
+            html_text+='<span style="color:green" class="glyphicon glyphicon-ok"></span>';
+        }
+        else{
+            html_text+='<span style="color:red" class="glyphicon glyphicon-remove"></span>';
+        }    
+        html_text+='</div></div><div class="row"><div class="col-md-4">One day shipping</div><div class="col-md-4" id="one_day_shipping'+i+'">';
+
+        if( one_day_shipping==="true" ){
+            html_text+='<span style="color:green" class="glyphicon glyphicon-ok"></span>';
+        }
+        else{
+            html_text+='<span style="color:red" class="glyphicon glyphicon-remove"></span>';
+        }        
+        html_text+='</div></div><div class="row"><div class="col-md-4">Returns accepted</div><div class="col-md-4" id="return_accept'+i+'">';
+        if( return_accept==="true" ){
+            html_text+='<span style="color:green" class="glyphicon glyphicon-ok"></span>';
+        }
+        else{
+            html_text+='<span style="color:red" class="glyphicon glyphicon-remove"></span>';
+        }
+        html_text+='</div></div>';     
+        html_text+='</div></div></div>';
+        
+        html_text +='</p></div></div>';     
+    }
+    //pagination
+    var page_show = resultCount/itemCount;
+    //page_show_g = page_show%1 == 0;
+    if( page_show%1 == 0 ){
+        page_show_g = Number(page_show);
+    }
+    else{
+        page_show_g = Number(page_show) +1;
+    }
+    //var page_from= Math.floor(pageNumber/5) *5 +1;
+    var page_from= Math.floor(pageNumber/5.1) *5 +1;
+    if( page_show>5){
+        html_text +='<ul class="pagination"><li class="arrow unavailable"><a id="pre_arrow" onclick="ajax_trigger('+(current_page-1)+')">&laquo;</a></li><li id="page'+page_from+'"><a onclick="ajax_trigger('+page_from+')">'+page_from+'</a></li><li id="page'+(page_from+1)+'"><a onclick="ajax_trigger('+(page_from+1)+')">'+(page_from+1)+'</a></li><li id="page'+(page_from+2)+'"><a  onclick="ajax_trigger('+(page_from+2)+')"="">'+(page_from+2)+'</a></li><li id="page'+(page_from+3)+'"><a onclick="ajax_trigger('+(page_from+3)+')">'+(page_from+3)+'</a></li><li id="page'+(page_from+4)+'"><a onclick="ajax_trigger('+(page_from+4)+')">'+(page_from+4)+'</a></li><li class="arrow" id="after_arrow"><a onclick="ajax_trigger('+(current_page+1)+')" >&raquo;</a></li></ul> ';                  
+    }
+    else if(page_show <=1){
+        
+    }
+    else{
+        html_text +='<ul class="pagination"><li class="arrow unavailable"><a onclick="ajax_trigger('+(current_page-1)+')">&laquo;</a></li>'
+        for(j=0;j<page_show;j++){
+            html_text+='<li id="page'+(page_from+j) +'"><a id="page'+(j+1)+'" onclick="ajax_trigger('+(page_from+j)+')">'+(page_from+j)+'</a></li>';
+        }
+        html_text +=' <li class="arrow"><a onclick="ajax_trigger('+(current_page+1)+')">&raquo;</a></li>';
+    }
+    $("#show_me").html(html_text);
+    //console.log($("#title_fb1").html());
+         
+}  
+
+function show_active(page_x){
+    //change active after show me
+    if(typeof previous_page =="undefined"){
+        previous_page=page_x;
+        current_page = page_x;
+        $("#page"+page_x).addClass('active');    
+        //console.log("I am undefined");
+    }
+    else{
+        previous_page=current_page;
+        current_page=page_x;
+                      
+        $("#page"+previous_page).removeClass('active');
+        $("#page"+current_page).addClass('active');     
+    }     
+}    
+    
+function ajax_trigger(page_x){
+    if(page_x ==0){
+        throw new Error("page_x =0:stop excuting function");
+    }
+    console.log(page_x);
+    console.log(page_show_g);
+    if( Number(page_x) > Number(page_show_g) ){
+        throw new Error("page number can not exit page_show_g!");
+    }
+    if(typeof previous_page =="undefined"){
+            previous_page=page_x;
+            current_page = page_x;
+            $("#page"+page_x).addClass('active');    
+            //console.log("I am undefined");
+    }
+    else{
+        previous_page=current_page;
+        current_page=page_x;                  
+    }
+            
+        var condition_array =[];
+        var buying_format_array = [];
+        var returnAccept_array = [];
+        var shipping_arrary =[];
+        var expectied_shipping_array=[];
+        $('input[name="condition"]:checked').each(function(){ condition_array.push($(this).val()); });
+        $('input[name="ListingType"]:checked').each(function(){ buying_format_array.push($(this).val()); });        
+        $('input[name="ReturnAcceptedOnly"]:checked').each(function(){ returnAccept_array.push($(this).val()); }); 
+        $('input[name="FreeShippingOnly"]:checked').each(function(){ shipping_arrary.push($(this).val()); });
+        $('input[name="ExpeditedShippingType"]:checked').each(function(){ expectied_shipping_array.push($(this).val()); });
+             //alert("validation passed");
+        $.ajax({
+            url: "hw8.php",
+            data: {
+                Keywords:$("#keywords").val(),
+                MinPrice:$("#price_from").val(),
+                MaxPrice:$("#price_to").val(),
+                Condition:condition_array, 
+                ListingType:buying_format_array,
+                ReturnsAcceptedOnly:returnAccept_array,
+                FreeShippingOnly:shipping_arrary,  
+                ExpeditedShippingType:expectied_shipping_array,
+                MaxHandlingTime:$("#max_handling_time").val(),
+                sortOrder:$("#sort_by option:selected").val(),
+                paginationInput:$("#result_per_page option:selected").text(),
+                pageNumber:page_x
+            },
+            type:'GET',
+            //dataType: "json",
+            //dataType= "xml",
+            success:function(output){
+                //$("#debug").html(output);
+                display_f(output);
+                show_active(page_x);
+            },
+            error:function(){
+                throw new Error("Something went badly wrong!");
+                alert("error in ajax");
+                
+            }
+        }); 
+    
+}    
+    
+$(document).ready(function(){
+    /*
+    $("#search").click( function(){
+        if( $("#keywords").val()!="" ){
+            ajax_trigger(1);
+        }
+    });//search  
+    */
+    $("#myform").validate({
+        rules:{
+            keywords: "required",
+            price_from:{
+                number:true,
+                min:0
+            },
+            price_to:{
+                number:true,
+                min:function(){
+                    if($("#price_from").val()==""){
+                        return 0;
+                    }else{
+                        return Number($("#price_from").val())
+                    }
+                }
+            },
+            max_handling_time:{
+                digits:true,
+                min:1
+            }
+            
+        },
+        messages:{
+            keywords: '<span style="color:red">Please enter a key word</span>',
+            price_from:{
+                number:'<span style="color:red">Price should be a valid number</span>',
+                min:'<span style="color:red">Minimum price cannot be below 0</span>'
+            },
+            price_to:{
+                number:'<span style="color:red">Price should be a valid number</span>',
+                min:'<span style="color:red">Maximum price cannot be less than minimum price</span>'
+            },
+            max_handling_time:{
+                digits:'<span style="color:red">Max handling time should be a valid digit</span>',
+                min:'<span style="color:red">Max handling time should be greater than or equal to 1</span>'
+            }
+        },
+        success:"valid",
+        submitHandler:function(){
+            //alert("submitted");
+            ajax_trigger(1);
+        }
+        /*function(label){
+            $("#search").click( function(){
+                    $("#search").click( function(){
+                        ajax_trigger(1);
+                    });
+                
+            });//search  
+        }*/
+    });
+});        
+</script>
+
+</head>
+
+<body>
+    
+   
+<!-- facebook javascrip SDK -->        
+<script>
+window.fbAsyncInit = function() {
+    FB.init({
+    appId      : '1573339092943266',
+    xfbml      : true,
+    version    : 'v2.3'
+    });
+}
+function share(i){
+    FB.ui({
+        method: 'feed',
+        picture:$("#picture"+i).attr('src'),
+        name:$("#title"+i).html(),
+        caption:'Search Information from eBay.com',
+        description:$("#fb_description"+i).html(),
+        display: 'popup',
+        link: $("#title"+i).attr('href'),
+    }, function(response){
+            if (response && response.post_id) {
+                alert('Post Successfully');
+            } 
+            else {
+                alert('Not Posted');
+            }    
+    });
+}          
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+    
+</script>    
+<!--    
+<table><tr><td><image src ="ebay.jpg" height ="100" width ="100"></td><td class= "remove"><span style="font-size:300%; top:20px"> shopping</span></td></tr></table>
+-->
+<p id ="debug"></p>
+<form class="form-horizontal" id="myform">
+<table><tr class="form-group"><td class="col-sm-offset-1 col-sm-2"><image src ="ebay.jpg" height ="100" width ="150"></td><td class= "remove"><span style="font-size:300%; top:20px"> shopping</span></td></tr></table>        
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Key words:*</label>
+      <div id ="div_control_keywords" class="col-sm-6">
+          <input type="text" class ="form-control" id ="keywords" name="keywords" placeholder="Enter keyword" required>
+          <p id ="keyword_error"></p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Price range:</label>
+      <div id ="div_control_from" class="col-sm-3">
+          <input type="text" class ="form-control" id ="price_from" name="price_from" placeholder="from($)">
+          <p id="from_error"></p>
+      </div>
+      <div id ="div_control_to" class="col-sm-3">
+          <input type="text" class ="form-control" id ="price_to" name="price_to" placeholder="to($)">
+          <p id="to_error"></p>
+      </div>        
+    </div> 
+    <div class="form-group">
+     <label class="col-sm-2 control-label">Condition:</label>
+     <div class="col-sm-6">
+       <div class="checkbox" >
+         <label>
+           <input type="checkbox" name="condition" value="1000"> New
+         </label >
+         <label>
+           <input type="checkbox" name="condition" value="3000"> Used
+         </label>
+         <label>
+           <input type="checkbox" name="condition" value="4000"> Very Good
+         </label>         
+         <label>
+           <input type="checkbox" name="condition" value="5000"> Good
+         </label>         
+         <label>
+           <input type="checkbox" name="condition" value="6000"> Acceptable
+         </label>           
+       </div>       
+     </div>
+    </div>
+
+    <div class="form-group">
+     <label class="col-sm-2 control-label">Buying formats:</label>
+     <div class="col-sm-6">
+       <div class="checkbox" >
+         <label>
+           <input type="checkbox" name="ListingType[]" value="FixedPrice"> Buy it Now
+         </label>
+         <label>
+           <input type="checkbox" name="ListingType[]" value="Auction"> Auction
+         </label>         
+         <label>
+           <input type="checkbox" name="ListingType[]" value="Classified"> Classified Ads
+         </label>                   
+       </div>       
+     </div>
+    </div>   
+
+    <div class="form-group">
+     <label class="col-sm-2 control-label">Seller:</label>
+     <div class="col-sm-6">
+       <div class="checkbox" >
+         <label>
+           <input type="checkbox" name="ReturnAcceptedOnly" value="true"> Return accepted
+         </label>                 
+       </div>       
+     </div>
+    </div> 
+
+    <div class="form-group">
+     <label class="col-sm-2 control-label">Shipping:</label>
+     <div class="col-sm-6">
+       <div class="checkbox" >
+         <label>
+           <input type="checkbox" name="FreeShippingOnly" value="true"> Free Shipping
+         </label> 
+         <label>
+           <input type="checkbox" name="ExpeditedShippingType" value="Expedited"> Expedited shipping
+         </label>             
+       </div>       
+     </div>
+    </div> 
+    
+  <div class="form-group">
+    <div id ="div_control_handling" class="col-sm-offset-2 col-sm-6">
+      <input type="text" class ="form-control" name="max_handling_time" id ="max_handling_time" placeholder="Max handling time(days)">
+        <p id="handling_error" ></p>
+    </div>
+  </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Sort by:</label>
+      <div class="col-sm-6">
+          <select id="sort_by" class="form-control">
+              <option value="BestMatch">Best Match</option>
+              <option value="CurrentPriceHighest">Price:highest first</option>
+              <option value="PricePlusShippingHighest">Price+Shipping:hightest first</option>
+              <option value="PricePlusShippingLowest">Price_Shipping:lowest first</option>              
+          </select>      
+      </div>
+    </div> 
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Results per page:</label>
+      <div class="col-sm-6">
+          <select class="form-control" id="result_per_page">
+              <option>5</option>
+              <option>10</option>              
+          </select>      
+      </div>
+    </div>     
+    
+    <div class="form-group">
+     <div class="col-sm-offset-7" >
+        <div>     
+       <button type="button" class="btn btn-default" value="clear" id ="clear_form" onclick="clear_f()">Clear</button>
+        <button type ="submit" class=" btn btn-primary" value="search" id = "search">Search</button>
+         </div>
+     </div>
+    </div>
+    <div class="form-group">
+        <label id="no_result" class="col-sm-4 control-label"></label>
+    </div>    
+</form>   
+    <div id="show_me"></div>    
+</body>
+
+</html>

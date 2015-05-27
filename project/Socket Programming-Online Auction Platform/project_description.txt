@@ -1,0 +1,5 @@
+Online Auction Platform - Socket Programming (Ubuntu)                               Feb. 2014 – May. 2014
+Bidders and sellers login the server system; Sellers uploaded sales information; Servers distributed 
+the sales information to bidders; Bidders gave their bidding price; Server public the binding result   
+•	Communications among the server, bidders and sellers over TCP and UDP using socket programming
+•	Developed mutil-process architectures for application layer using C language  
